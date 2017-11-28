@@ -5,10 +5,14 @@ class Speak {
         this.rate = 1;
         this.voices=[];
         this.voice=0;
-        return this.populateVoiceList();
+        this.populateVoiceList();
+        return this;
     }
     populateVoiceList() {
-        this.voices = this.synth.getVoices();
+        
+        window.speechSynthesis.onvoiceschanged = function() {
+          this.voices = this.synth.getVoices();
+        }.bind(this);
         return this;
     }
     getVoices(output=false){
