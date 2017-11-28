@@ -9,13 +9,14 @@ class Listen {
       this.recognition.interimResults = false;
       this.recognition.maxAlternatives = 1;
       this.debug=true;
-      this.recognition.addEventListener('result', this.onResult)
+      this.recognition.addEventListener('result', this.onResult.bind(this))
       this.recognition.addEventListener('speechend', this.onSpeechEnd)
       this.recognition.addEventListener('nomatch', this.onNoMatch)
       this.recognition.addEventListener('error', this.onError)
   }
-  listen(){
+  listen(callback){
     this.recognition.start();
+    this.callback=callback;
   }
   onSpeechEnd(e) {
     //firing?
@@ -43,6 +44,7 @@ class Listen {
     }
     //console.log(e, 'Confidence: ' + e.results[0][0].confidence, question);
     console.log(question);
+    this.callback(question);
     }
 }
 let l = new Listen();
